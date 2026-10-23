@@ -1,0 +1,12 @@
+target/
+.git/
+.gitignore
+.dockerignore
+*.md
+.env
+.env.*
+.tools/
+scratch/
+database/seed-dev.sql
+.idea/
+.vscode/
