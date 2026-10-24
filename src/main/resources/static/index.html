@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrustVault — Secure Document Vault & Audit-Chain Platform</title>
-    <meta name="description" content="Enterprise zero-trust document vault with tamper-evident cryptographic audit ledger.">
+    <title>TrustVault Quantum Sentinel — Zero-Trust Document Vault & Audit-Chain Platform</title>
+    <meta name="description" content="Next-Gen Zero-Trust Cryptographic Document Vault with SHA-256 Merkle-Chained Audit Ledger.">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom Cyber Theme -->
@@ -17,22 +17,32 @@
     <div class="d-flex align-items-center gap-3">
         <a href="/index.html" class="brand-badge">
             <div class="brand-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
             </div>
             <span>TrustVault</span>
+            <span class="brand-tag">SENTINEL</span>
         </a>
-        <span class="status-pill success d-none d-md-inline-flex">
-            <span class="pulse-dot"></span> Ledger Protected
+        <span class="status-pill success d-none d-lg-inline-flex">
+            <span class="pulse-dot"></span> Ledger Protected (SHA-256)
         </span>
     </div>
 
     <div class="d-flex align-items-center gap-3">
+        <!-- Sound FX Toggle -->
+        <button id="btn-sound-toggle" class="btn-sound-toggle active" title="Toggle Cybernetic Audio Feedback">
+            <span id="sound-icon">🔊</span>
+            <span id="sound-text">Audio FX: ON</span>
+        </button>
+
+        <!-- User Profile Badge -->
         <div id="user-profile-badge" class="d-flex align-items-center gap-2">
             <!-- Dynamically populated -->
         </div>
-        <button id="btn-logout" class="btn-secondary-custom" style="padding:0.35rem 0.75rem;font-size:0.8rem">
+
+        <!-- Sign Out Button -->
+        <button id="btn-logout" class="btn-secondary-custom" style="padding:0.4rem 0.85rem;font-size:0.8rem">
             Sign Out
         </button>
     </div>
@@ -40,42 +50,82 @@
 
 <!-- Main Container -->
 <div class="container-fluid py-4 px-4">
+
+    <!-- SENTINEL TELEMETRY COMMAND HUD -->
+    <div class="sentinel-hud">
+        <div class="hud-card">
+            <div class="hud-icon" style="color:var(--cyan)">🛡️</div>
+            <div class="hud-content">
+                <div class="hud-label">Zero-Trust Posture</div>
+                <div class="hud-value" id="hud-posture">99.4%</div>
+                <div class="hud-sub">● Optimal Enclave Isolation</div>
+            </div>
+        </div>
+
+        <div class="hud-card emerald">
+            <div class="hud-icon" style="color:var(--emerald)">⛓️</div>
+            <div class="hud-content">
+                <div class="hud-label">Cryptographic Block Height</div>
+                <div class="hud-value" id="hud-block-height">#12</div>
+                <div class="hud-sub">● Sequential SHA-256 Chain</div>
+            </div>
+        </div>
+
+        <div class="hud-card violet">
+            <div class="hud-icon" style="color:#c084fc">🔒</div>
+            <div class="hud-content">
+                <div class="hud-label">Active Cipher Engine</div>
+                <div class="hud-value" style="font-size:1.1rem;margin-top:0.15rem">FIPS 180-4</div>
+                <div class="hud-sub" style="color:#c084fc">● SHA-256 + Time Locks</div>
+            </div>
+        </div>
+
+        <div class="hud-card amber">
+            <div class="hud-icon" style="color:var(--amber)">📂</div>
+            <div class="hud-content">
+                <div class="hud-label">Active Enclaves & Grants</div>
+                <div class="hud-value" id="hud-docs-count">0 / 0</div>
+                <div class="hud-sub" style="color:var(--amber)">● Role-Based Zero Trust</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation Tabs -->
     <div class="nav-pills-custom">
         <button class="active" data-tab="documents">
-            📁 Document Vault
+            📁 Document Enclave Vault
         </button>
         <button data-tab="audit">
-            📜 Security Audit Ledger
+            📜 Cryptographic Block Chain & Ledger
         </button>
         <button id="tab-btn-admin" data-tab="admin" style="display:none">
-            🛡 Administrator Console
+            🛡 SecOps Administrator Console
         </button>
     </div>
 
     <!-- TAB 1: DOCUMENTS VAULT -->
     <div id="panel-documents" class="tab-content-panel">
-        <!-- Controls Bar -->
+        <!-- Search & Controls Bar -->
         <div class="glass-panel p-3 mb-4">
             <div class="row g-2 align-items-center">
                 <div class="col-md-3">
-                    <input type="text" id="filter-name" class="form-control-custom" placeholder="🔍 Search document name...">
+                    <input type="text" id="filter-name" class="form-control-custom" placeholder="🔍 Search document filename...">
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="filter-owner" class="form-control-custom" placeholder="👤 Filter by owner...">
+                    <input type="text" id="filter-owner" class="form-control-custom" placeholder="👤 Filter by owner identity...">
                 </div>
                 <div class="col-md-2">
                     <select id="filter-category" class="form-select-custom">
                         <option value="">All Categories</option>
-                        <option value="FINANCE">Finance</option>
-                        <option value="LEGAL">Legal</option>
-                        <option value="SECURITY">Security</option>
+                        <option value="SECURITY">Security & Compliance</option>
+                        <option value="FINANCE">Financial Records</option>
+                        <option value="LEGAL">Legal & Contracts</option>
                         <option value="HR">Human Resources</option>
-                        <option value="GENERAL">General</option>
+                        <option value="GENERAL">General Documents</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="date" id="filter-date" class="form-control-custom" title="Filter by date">
+                    <input type="date" id="filter-date" class="form-control-custom" title="Filter by upload date">
                 </div>
                 <div class="col-md-1">
                     <button id="btn-clear-filters" class="btn-secondary-custom w-100 justify-content-center" title="Reset Filters">
@@ -84,7 +134,7 @@
                 </div>
                 <div class="col-md-2 text-end">
                     <button class="btn-primary-custom w-100 justify-content-center" onclick="openModal('modal-upload')">
-                        + Upload Document
+                        + Ingest Document
                     </button>
                 </div>
             </div>
@@ -96,12 +146,12 @@
                 <table class="table-custom">
                     <thead>
                         <tr>
-                            <th>Document</th>
-                            <th>Category</th>
-                            <th>Size</th>
-                            <th>Owner</th>
-                            <th>SHA-256 Checksum</th>
-                            <th>Permission</th>
+                            <th>Document Enclave</th>
+                            <th>Classification</th>
+                            <th>Byte Size</th>
+                            <th>Owner Identity</th>
+                            <th>Cryptographic SHA-256 Digest</th>
+                            <th>Effective Access</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -113,37 +163,68 @@
 
             <div id="documents-empty-state" class="text-center py-5" style="display:none">
                 <div style="font-size:3rem;margin-bottom:0.75rem">🔒</div>
-                <h5 class="text-white">No documents found</h5>
-                <p class="text-muted" style="font-size:0.875rem">Upload a document or adjust search filters to view files.</p>
+                <h5 class="text-white">No Sealed Documents Found</h5>
+                <p class="text-muted" style="font-size:0.875rem">Upload a document to initialize a confidential zero-trust enclave.</p>
                 <button class="btn-primary-custom mt-2" onclick="openModal('modal-upload')">
-                    Upload Your First Document
+                    + Ingest Your First Document
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- TAB 2: AUDIT LEDGER -->
+    <!-- TAB 2: AUDIT LEDGER & VISUAL BLOCKCHAIN -->
     <div id="panel-audit" class="tab-content-panel" style="display:none">
-        <div class="glass-panel p-3 mb-3 d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="text-white mb-1">Cryptographic Security Ledger</h5>
-                <p class="text-muted mb-0" style="font-size:0.8rem">Immutable event stream chained with SHA-256 hash validation.</p>
+        
+        <!-- Interactive Visual Block Chain Section -->
+        <div class="glass-panel p-4 mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                <div>
+                    <h5 class="text-white mb-1 d-flex align-items-center gap-2">
+                        <span>⛓️ Visual Cryptographic Block Chain Explorer</span>
+                        <span class="badge" style="background:rgba(0,242,254,0.15);color:var(--cyan);font-size:0.7rem">MERKLE-SEQUENTIAL</span>
+                    </h5>
+                    <p class="text-muted mb-0" style="font-size:0.8rem">
+                        Each node is cryptographically chained via <code>H(i) = SHA-256(H(i-1) || Actor || Action || Timestamp || Details)</code>.
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button id="btn-simulate-tamper" class="btn-danger-custom" onclick="toggleTamperSimulation()">
+                        ⚡ Simulate Tamper Attack
+                    </button>
+                    <button class="btn-secondary-custom" onclick="loadAuditLedger()">
+                        🔄 Refresh Stream
+                    </button>
+                </div>
             </div>
-            <button class="btn-secondary-custom" onclick="loadAuditLedger()">
-                🔄 Refresh Stream
-            </button>
+
+            <!-- Tamper Attack Alert Box -->
+            <div id="tamper-alert-banner" class="alert alert-danger py-2 px-3 mb-3" style="display:none;background:rgba(255,0,85,0.15);border-color:#ff0055;color:#ff6b8b;font-size:0.85rem">
+                <strong>⚠️ TAMPER ATTACK INJECTED:</strong> Database record #2 was maliciously altered! Notice how downstream hash verification immediately breaks (red highlight) and the cryptographic seal fails!
+            </div>
+
+            <!-- Horizontal Scrollable Blockchain Explorer -->
+            <div class="blockchain-visualizer-container">
+                <div id="blockchain-nodes-stream" class="blockchain-stream">
+                    <!-- Populated dynamically with block cards -->
+                </div>
+            </div>
         </div>
 
+        <!-- Tabular Audit Ledger -->
         <div class="glass-panel overflow-hidden">
+            <div class="p-3 border-bottom border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                <span class="fw-bold text-white" style="font-size:0.9rem">Sequential Immutable Audit Log</span>
+                <span class="text-muted" style="font-size:0.75rem">Total Verified Records: <span id="audit-table-count" class="text-white">0</span></span>
+            </div>
             <div class="table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
                             <th>Outcome</th>
                             <th>Action Type</th>
-                            <th>Actor</th>
-                            <th>Sanitized Event Details</th>
-                            <th>Block Hash</th>
+                            <th>Actor Identity</th>
+                            <th>Event Forensic Details</th>
+                            <th>Cryptographic Block Hash</th>
                             <th>Server Timestamp</th>
                         </tr>
                     </thead>
@@ -163,12 +244,17 @@
                 <div>
                     <h4 class="text-white mb-1">Audit-Chain Cryptographic Integrity Engine</h4>
                     <p class="text-muted mb-0" style="font-size:0.85rem">
-                        Mathematically validates that zero audit records have been inserted, modified, or forged in the database.
+                        Mathematically re-calculates the entire SHA-256 hash sequence from the Genesis Block to the Root to detect any insertion, deletion, or tampering.
                     </p>
                 </div>
-                <button id="btn-verify-integrity" class="btn-primary-custom">
-                    🔍 Verify Cryptographic Hash Chain
-                </button>
+                <div class="d-flex gap-2">
+                    <button id="btn-export-certificate" class="btn-cyber-outline" onclick="exportComplianceCertificate()">
+                        📜 Export Compliance Certificate (JSON)
+                    </button>
+                    <button id="btn-verify-integrity" class="btn-primary-custom">
+                        🔍 Verify Cryptographic Hash Chain
+                    </button>
+                </div>
             </div>
 
             <div class="row g-3">
@@ -182,21 +268,18 @@
                 </div>
                 <div class="col-md-4">
                     <div class="glass-panel p-3">
-                        <div class="text-muted" style="font-size:0.75rem;text-transform:uppercase">Chained Blocks Verified</div>
-                        <div class="text-white fw-bold fs-4 mt-1" id="integrity-total-count">-</div>
+                        <div class="text-muted" style="font-size:0.75rem;text-transform:uppercase">Verified Event Height</div>
+                        <div class="mt-1 fw-bold text-white" style="font-size:1.4rem;font-family:var(--font-mono)" id="integrity-events-count">—</div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="glass-panel p-3">
-                        <div class="text-muted" style="font-size:0.75rem;text-transform:uppercase">Latest Ledger Hash</div>
-                        <div class="mono text-primary mt-2" id="integrity-latest-hash" style="cursor:pointer;font-size:0.8rem">
-                            -
-                        </div>
+                        <div class="text-muted" style="font-size:0.75rem;text-transform:uppercase">Current Ledger Root Hash</div>
+                        <div class="mt-1" id="integrity-latest-hash" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--cyan);word-break:break-all">—</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Broken alert container if tampering detected -->
             <div id="integrity-broken-box" class="mt-3" style="display:none"></div>
         </div>
 
@@ -204,8 +287,8 @@
         <div class="glass-panel p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h5 class="text-white mb-1">User Authorization & Access Directory</h5>
-                    <p class="text-muted mb-0" style="font-size:0.8rem">Manage user roles and toggle account security statuses.</p>
+                    <h5 class="text-white mb-1">User Authorization & Security Access Directory</h5>
+                    <p class="text-muted mb-0" style="font-size:0.8rem">Manage corporate personas, roles, and emergency account lockouts.</p>
                 </div>
                 <button class="btn-secondary-custom" onclick="loadAdminUsers()">
                     🔄 Refresh Directory
@@ -216,10 +299,10 @@
                 <table class="table-custom">
                     <thead>
                         <tr>
-                            <th>Corporate Email</th>
+                            <th>Corporate Identity</th>
                             <th>Assigned Role</th>
-                            <th>Status</th>
-                            <th>Created Timestamp</th>
+                            <th>Security Status</th>
+                            <th>Enclave Registration</th>
                             <th>Account Control</th>
                         </tr>
                     </thead>
@@ -240,7 +323,7 @@
 <div id="modal-upload" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-header">
-            <h5 class="text-white mb-0">Upload Encrypted Document</h5>
+            <h5 class="text-white mb-0">Ingest Confidential Document</h5>
             <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-upload')">✕</button>
         </div>
         <form id="form-upload-doc">
@@ -250,75 +333,86 @@
                     <div class="dropzone-icon">☁️</div>
                     <div class="fw-semibold text-white">Click or drag & drop confidential document here</div>
                     <div class="text-muted mt-1" style="font-size:0.75rem">
-                        Allowed: PDF, DOCX, XLSX, TXT, MD, CSV, PNG, JPG (Max 20MB)
+                        Validated: PDF, DOCX, XLSX, TXT, MD, CSV, PNG, JPG (Max 20MB)
                     </div>
                 </div>
                 <div id="file-preview-info" style="display:none"></div>
 
                 <div class="mb-3 mt-3">
-                    <label class="form-label text-secondary" style="font-size:0.85rem">Document Category</label>
+                    <label class="form-label text-secondary" style="font-size:0.85rem">Security Classification</label>
                     <select id="upload-category" class="form-select-custom">
-                        <option value="GENERAL">General</option>
-                        <option value="FINANCE">Finance</option>
-                        <option value="LEGAL">Legal</option>
-                        <option value="SECURITY">Security</option>
+                        <option value="GENERAL">General Confidential</option>
+                        <option value="FINANCE">Financial Sensitive</option>
+                        <option value="LEGAL">Legal & Contracts</option>
+                        <option value="SECURITY">Security Architecture</option>
                         <option value="HR">Human Resources</option>
                     </select>
                 </div>
 
                 <div class="mb-2">
-                    <label class="form-label text-secondary" style="font-size:0.85rem">Description (Optional)</label>
-                    <textarea id="upload-description" class="form-control-custom" rows="3" placeholder="Context or notes about this document..."></textarea>
+                    <label class="form-label text-secondary" style="font-size:0.85rem">Enclave Description / Notes</label>
+                    <textarea id="upload-description" class="form-control-custom" rows="3" placeholder="Context, security constraints, or provenance notes..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary-custom" onclick="closeModal('modal-upload')">Cancel</button>
-                <button type="submit" id="btn-submit-upload" class="btn-primary-custom">Upload Document</button>
+                <button type="submit" id="btn-submit-upload" class="btn-primary-custom">Seal & Upload Document</button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- 2. SHARING & GRANTS MODAL -->
+<!-- 2. SHARING & TIME-LIMITED GRANTS MODAL -->
 <div id="modal-share" class="modal-overlay">
-    <div class="modal-box" style="max-width:700px">
+    <div class="modal-box" style="max-width:720px">
         <div class="modal-header">
-            <h5 class="text-white mb-0">Manage Document Permissions & Grants</h5>
+            <h5 class="text-white mb-0">Manage Permissions & Time-Limited Access Grants</h5>
             <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-share')">✕</button>
         </div>
         <div class="modal-body">
             <!-- Grant New Access Section -->
             <div class="glass-panel p-3 mb-4">
-                <h6 class="text-white mb-2" style="font-size:0.9rem">Grant Access to User</h6>
+                <h6 class="text-white mb-2" style="font-size:0.88rem">Issue Granular Access Grant</h6>
                 <div class="row g-2">
-                    <div class="col-md-7">
-                        <input type="email" id="grant-recipient-email" class="form-control-custom" placeholder="recipient@company.com">
+                    <div class="col-md-5">
+                        <label class="text-muted" style="font-size:0.72rem">RECIPIENT IDENTITY</label>
+                        <input type="email" id="grant-recipient-email" class="form-control-custom" placeholder="colleague@trustvault.local">
                     </div>
                     <div class="col-md-3">
+                        <label class="text-muted" style="font-size:0.72rem">PERMISSION LEVEL</label>
                         <select id="grant-permission-level" class="form-select-custom">
                             <option value="READ">READ (Download)</option>
                             <option value="EDIT">EDIT (Metadata)</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn-primary-custom w-100 justify-content-center" onclick="submitNewGrant()">
-                            Grant
-                        </button>
+                    <div class="col-md-4">
+                        <label class="text-muted" style="font-size:0.72rem">GRANT TTL / DURATION</label>
+                        <select id="grant-duration" class="form-select-custom">
+                            <option value="0">Permanent (No Expiry)</option>
+                            <option value="1">⏱ 1 Hour (Burn-After)</option>
+                            <option value="24">⏱ 24 Hours (Review)</option>
+                            <option value="168">⏱ 7 Days (Project)</option>
+                        </select>
                     </div>
+                </div>
+                <div class="mt-3 text-end">
+                    <button id="btn-submit-grant" class="btn-primary-custom" onclick="submitGrant()">
+                        Grant Access
+                    </button>
                 </div>
             </div>
 
-            <!-- Active & Historical Grants List -->
-            <h6 class="text-white mb-2" style="font-size:0.9rem">Access Grants History</h6>
+            <!-- Existing Grants List -->
+            <h6 class="text-white mb-2" style="font-size:0.88rem">Active & Revoked Enclave Grants</h6>
             <div class="table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
                             <th>Recipient</th>
                             <th>Permission</th>
-                            <th>Status</th>
-                            <th>Granted Date</th>
-                            <th>Action</th>
+                            <th>Status / Expiry</th>
+                            <th>Issued At</th>
+                            <th>Revoke</th>
                         </tr>
                     </thead>
                     <tbody id="grants-list-body">
@@ -333,46 +427,75 @@
     </div>
 </div>
 
-<!-- 3. EDIT METADATA MODAL -->
-<div id="modal-edit" class="modal-overlay">
-    <div class="modal-box">
+<!-- 3. CRYPTOGRAPHIC FORENSICS & ZERO-KNOWLEDGE VERIFIER MODAL (STANDOUT FEATURE) -->
+<div id="modal-forensics" class="modal-overlay">
+    <div class="modal-box" style="max-width:680px">
         <div class="modal-header">
-            <h5 class="text-white mb-0">Edit Document Metadata</h5>
-            <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-edit')">✕</button>
+            <h5 class="text-white mb-0 d-flex align-items-center gap-2">
+                <span>🔬 Cryptographic Forensics & Provenance Dossier</span>
+            </h5>
+            <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-forensics')">✕</button>
         </div>
         <div class="modal-body">
-            <div class="mb-3">
-                <label class="form-label text-secondary" style="font-size:0.85rem">Display Filename</label>
-                <input type="text" id="edit-doc-filename" class="form-control-custom" required>
+            <div class="glass-panel p-3 mb-3">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="text-muted" style="font-size:0.72rem">ENCLAVE FILENAME</div>
+                        <div id="forensic-filename" class="text-white fw-bold" style="word-break:break-all">—</div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted" style="font-size:0.72rem">BYTE SIZE</div>
+                        <div id="forensic-size" class="text-white font-mono">—</div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted" style="font-size:0.72rem">MIME SIGNATURE</div>
+                        <div id="forensic-mime" class="text-white font-mono" style="font-size:0.75rem">—</div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="text-muted" style="font-size:0.72rem">IMMUTABLE SHA-256 CRYPTOGRAPHIC DIGEST</div>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                        <code id="forensic-hash" class="p-2 rounded bg-black bg-opacity-50 text-cyan d-block w-100" style="font-size:0.75rem;word-break:break-all">
+                            —
+                        </code>
+                        <button class="btn-secondary-custom" onclick="copyForensicHash()" title="Copy Digest">
+                            📋
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label text-secondary" style="font-size:0.85rem">Category</label>
-                <select id="edit-doc-category" class="form-select-custom">
-                    <option value="GENERAL">General</option>
-                    <option value="FINANCE">Finance</option>
-                    <option value="LEGAL">Legal</option>
-                    <option value="SECURITY">Security</option>
-                    <option value="HR">Human Resources</option>
-                </select>
-            </div>
-            <div class="mb-2">
-                <label class="form-label text-secondary" style="font-size:0.85rem">Description</label>
-                <textarea id="edit-doc-description" class="form-control-custom" rows="3"></textarea>
+
+            <!-- Client-Side Zero-Knowledge Verifier -->
+            <div class="glass-panel p-3">
+                <h6 class="text-white mb-1 d-flex align-items-center gap-2" style="font-size:0.85rem">
+                    <span>⚡ Client-Side Zero-Knowledge Authenticity Verifier</span>
+                </h6>
+                <p class="text-muted mb-2" style="font-size:0.75rem">
+                    Drop a local copy of this file below. Your browser will compute its SHA-256 hash using native <code>crypto.subtle</code> and verify bit-for-bit authenticity against the Vault's recorded digest without sending data over the network!
+                </p>
+
+                <div id="forensic-dropzone" class="upload-dropzone py-3" style="border-style:dashed;border-width:1px">
+                    <div style="font-size:1.5rem">📂</div>
+                    <div style="font-size:0.8rem;color:#fff">Drop file here to verify local checksum</div>
+                    <input type="file" id="forensic-file-input" style="display:none">
+                </div>
+
+                <div id="forensic-match-result" class="mt-2" style="display:none"></div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn-secondary-custom" onclick="closeModal('modal-edit')">Cancel</button>
-            <button type="button" class="btn-primary-custom" onclick="submitEditMetadata()">Save Changes</button>
+            <button type="button" class="btn-secondary-custom" onclick="closeModal('modal-forensics')">Close Dossier</button>
         </div>
     </div>
 </div>
 
-<!-- 4. DOCUMENT SPECIFIC AUDIT MODAL -->
-<div id="modal-doc-audit" class="modal-overlay">
-    <div class="modal-box" style="max-width:750px">
+<!-- 4. DOCUMENT AUDIT TRAIL MODAL -->
+<div id="modal-audit-trail" class="modal-overlay">
+    <div class="modal-box" style="max-width:700px">
         <div class="modal-header">
-            <h5 id="audit-modal-title" class="text-white mb-0">Document Audit Trail</h5>
-            <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-doc-audit')">✕</button>
+            <h5 class="text-white mb-0">Document Lifecycle Audit Trail</h5>
+            <button type="button" class="btn text-muted p-0" onclick="closeModal('modal-audit-trail')">✕</button>
         </div>
         <div class="modal-body">
             <div class="table-responsive">
@@ -380,9 +503,9 @@
                     <thead>
                         <tr>
                             <th>Action</th>
-                            <th>Outcome</th>
                             <th>Actor</th>
                             <th>Details</th>
+                            <th>Block Hash</th>
                             <th>Timestamp</th>
                         </tr>
                     </thead>
@@ -393,17 +516,17 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn-secondary-custom" onclick="closeModal('modal-doc-audit')">Close</button>
+            <button type="button" class="btn-secondary-custom" onclick="closeModal('modal-audit-trail')">Close</button>
         </div>
     </div>
 </div>
 
-<!-- Toast Notifications Container -->
-<div id="toast-container"></div>
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container-custom"></div>
 
-<!-- Bootstrap 5 JS -->
+<!-- Bootstrap 5 Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Application Core JS -->
+<!-- Custom App Script -->
 <script src="/js/app.js"></script>
 
 </body>

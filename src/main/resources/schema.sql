@@ -30,9 +30,12 @@ CREATE TABLE IF NOT EXISTS document_grants (
     permission_level VARCHAR(16) NOT NULL,
     granted_by VARCHAR(64) NOT NULL REFERENCES users(id),
     grant_timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE NULL,
     revocation_timestamp TIMESTAMP WITH TIME ZONE NULL,
     revoked_by VARCHAR(64) REFERENCES users(id)
 );
+
+ALTER TABLE document_grants ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE NULL;
 
 CREATE TABLE IF NOT EXISTS audit_events (
     id VARCHAR(64) PRIMARY KEY,

@@ -14,6 +14,7 @@ public class GrantResponse {
     private String grantedBy;
     private String grantedByEmail;
     private Instant grantTimestamp;
+    private Instant expiresAt;
     private Instant revocationTimestamp;
     private String revokedBy;
     private String revokedByEmail;
@@ -25,6 +26,14 @@ public class GrantResponse {
                          PermissionLevel permissionLevel, String grantedBy, String grantedByEmail,
                          Instant grantTimestamp, Instant revocationTimestamp, String revokedBy,
                          String revokedByEmail, boolean isActive) {
+        this(id, documentId, recipientId, recipientEmail, permissionLevel, grantedBy, grantedByEmail,
+             grantTimestamp, null, revocationTimestamp, revokedBy, revokedByEmail, isActive);
+    }
+
+    public GrantResponse(String id, String documentId, String recipientId, String recipientEmail,
+                         PermissionLevel permissionLevel, String grantedBy, String grantedByEmail,
+                         Instant grantTimestamp, Instant expiresAt, Instant revocationTimestamp, String revokedBy,
+                         String revokedByEmail, boolean isActive) {
         this.id = id;
         this.documentId = documentId;
         this.recipientId = recipientId;
@@ -33,6 +42,7 @@ public class GrantResponse {
         this.grantedBy = grantedBy;
         this.grantedByEmail = grantedByEmail;
         this.grantTimestamp = grantTimestamp;
+        this.expiresAt = expiresAt;
         this.revocationTimestamp = revocationTimestamp;
         this.revokedBy = revokedBy;
         this.revokedByEmail = revokedByEmail;
@@ -49,12 +59,16 @@ public class GrantResponse {
             grant.getGrantedBy(),
             grantedByEmail,
             grant.getGrantTimestamp(),
+            grant.getExpiresAt(),
             grant.getRevocationTimestamp(),
             grant.getRevokedBy(),
             revokedByEmail,
             grant.isActive()
         );
     }
+
+    public Instant getExpiresAt() { return expiresAt; }
+    public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

@@ -13,11 +13,18 @@ public class CreateGrantRequest {
     @NotNull(message = "Permission level is required (READ or EDIT)")
     private PermissionLevel permissionLevel;
 
+    private Integer durationHours;
+
     public CreateGrantRequest() {}
 
     public CreateGrantRequest(String recipientEmail, PermissionLevel permissionLevel) {
+        this(recipientEmail, permissionLevel, null);
+    }
+
+    public CreateGrantRequest(String recipientEmail, PermissionLevel permissionLevel, Integer durationHours) {
         this.recipientEmail = recipientEmail;
         this.permissionLevel = permissionLevel;
+        this.durationHours = durationHours;
     }
 
     public String getRecipientEmail() { return recipientEmail; }
@@ -25,4 +32,7 @@ public class CreateGrantRequest {
 
     public PermissionLevel getPermissionLevel() { return permissionLevel; }
     public void setPermissionLevel(PermissionLevel permissionLevel) { this.permissionLevel = permissionLevel; }
+
+    public Integer getDurationHours() { return durationHours; }
+    public void setDurationHours(Integer durationHours) { this.durationHours = durationHours; }
 }

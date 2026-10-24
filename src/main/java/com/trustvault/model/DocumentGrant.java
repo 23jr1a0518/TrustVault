@@ -9,6 +9,7 @@ public class DocumentGrant {
     private PermissionLevel permissionLevel;
     private String grantedBy;
     private Instant grantTimestamp;
+    private Instant expiresAt;
     private Instant revocationTimestamp;
     private String revokedBy;
 
@@ -17,19 +18,36 @@ public class DocumentGrant {
     public DocumentGrant(String id, String documentId, String recipientId,
                          PermissionLevel permissionLevel, String grantedBy,
                          Instant grantTimestamp, Instant revocationTimestamp, String revokedBy) {
+        this(id, documentId, recipientId, permissionLevel, grantedBy, grantTimestamp, null, revocationTimestamp, revokedBy);
+    }
+
+    public DocumentGrant(String id, String documentId, String recipientId,
+                         PermissionLevel permissionLevel, String grantedBy,
+                         Instant grantTimestamp, Instant expiresAt,
+                         Instant revocationTimestamp, String revokedBy) {
         this.id = id;
         this.documentId = documentId;
         this.recipientId = recipientId;
         this.permissionLevel = permissionLevel;
         this.grantedBy = grantedBy;
         this.grantTimestamp = grantTimestamp;
+        this.expiresAt = expiresAt;
         this.revocationTimestamp = revocationTimestamp;
         this.revokedBy = revokedBy;
     }
 
     public boolean isActive() {
-        return revocationTimestamp == null;
+        if (revocationTimestamp != null) {
+            return false;
+        }
+        if (expiresAt != null && expiresAt.isBefore(Instant.now())) {
+            return false;
+        }
+        return true;
     }
+
+    public Instant getExpiresAt() { return expiresAt; }
+    public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

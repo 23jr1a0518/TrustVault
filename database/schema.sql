@@ -49,13 +49,17 @@ CREATE TABLE IF NOT EXISTS document_grants (
     permission_level VARCHAR(16) NOT NULL CHECK (permission_level IN ('READ', 'EDIT')),
     granted_by VARCHAR(64) NOT NULL REFERENCES users(id),
     grant_timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP WITH TIME ZONE NULL,
     revocation_timestamp TIMESTAMP WITH TIME ZONE NULL,
     revoked_by VARCHAR(64) REFERENCES users(id)
 );
 
+ALTER TABLE document_grants ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE NULL;
+
 CREATE INDEX IF NOT EXISTS idx_grants_doc_recip ON document_grants(document_id, recipient_id);
 CREATE INDEX IF NOT EXISTS idx_grants_recipient ON document_grants(recipient_id);
 CREATE INDEX IF NOT EXISTS idx_grants_revocation ON document_grants(revocation_timestamp);
+CREATE INDEX IF NOT EXISTS idx_grants_expires ON document_grants(expires_at);
 
 -- Enforce at most one active grant per (document_id, recipient_id) pair
 CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_active_grant 

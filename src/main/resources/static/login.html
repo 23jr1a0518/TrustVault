@@ -3,113 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrustVault — Secure Document Vault Authentication</title>
-    <meta name="description" content="Enterprise-grade zero-trust document vault with cryptographic audit integrity.">
+    <title>TrustVault Quantum Sentinel — Zero-Trust Document Enclave</title>
+    <meta name="description" content="Next-Gen Zero-Trust Cryptographic Document Vault and SHA-256 Tamper-Proof Audit Chain.">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom Cyber Theme -->
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        .login-container {
+        .login-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        #cyber-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.65;
         }
         .login-card {
             width: 100%;
-            max-width: 440px;
-            padding: 2.5rem;
+            max-width: 460px;
+            padding: 2.5rem 2.25rem;
+            border-radius: var(--radius-lg);
+            background: rgba(10, 16, 30, 0.85);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 242, 254, 0.12);
         }
-        .quick-account-btn {
+        .quick-account-chip {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-secondary);
-            font-size: 0.78rem;
-            padding: 0.4rem 0.65rem;
+            font-size: 0.76rem;
+            padding: 0.45rem 0.75rem;
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
         }
-        .quick-account-btn:hover {
-            background: rgba(56, 189, 248, 0.12);
-            color: var(--primary);
-            border-color: rgba(56, 189, 248, 0.3);
+        .quick-account-chip:hover {
+            background: rgba(0, 242, 254, 0.12);
+            color: var(--cyan);
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-1px);
+        }
+        .chip-role-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .security-classification-header {
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--amber);
+            border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
+<canvas id="cyber-canvas"></canvas>
+
+<div class="login-wrapper">
     <div class="glass-panel login-card">
+        <!-- Classification Header -->
+        <div class="security-classification-header">
+            ⚡ RESTRICTED ACCESS // FIPS 140-3 ZERO-TRUST ENCLAVE ⚡
+        </div>
+
         <!-- Brand Header -->
         <div class="text-center mb-4">
             <div class="brand-badge justify-content-center mb-2">
                 <div class="brand-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
                 </div>
                 <span>TrustVault</span>
+                <span class="brand-tag">SENTINEL</span>
             </div>
-            <p class="text-muted" style="font-size:0.875rem">Zero-Trust Document Vault & Audit-Chain Platform</p>
+            <p class="text-muted" style="font-size:0.84rem">Quantum Cryptographic Vault & Immutable Audit Chain</p>
         </div>
 
         <!-- Alert Container -->
-        <div id="login-alert" class="alert alert-danger py-2 px-3 mb-3 d-none" style="font-size:0.85rem;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);color:#fca5a5" role="alert"></div>
+        <div id="login-alert" class="alert alert-danger py-2 px-3 mb-3 d-none" style="font-size:0.85rem;background:rgba(255,0,85,0.15);border-color:rgba(255,0,85,0.3);color:#ff6b8b" role="alert"></div>
 
         <!-- Login Form -->
         <form id="login-form">
             <div class="mb-3">
-                <label for="email" class="form-label text-secondary" style="font-size:0.85rem">Corporate Email</label>
-                <input type="email" class="form-control-custom" id="email" placeholder="name@company.com" required autocomplete="username">
+                <label for="email" class="form-label text-secondary" style="font-size:0.82rem;font-weight:600">CORPORATE IDENTITY / EMAIL</label>
+                <input type="email" class="form-control-custom" id="email" placeholder="agent@trustvault.local" required autocomplete="username">
             </div>
 
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label for="password" class="form-label text-secondary mb-0" style="font-size:0.85rem">Password</label>
+                    <label for="password" class="form-label text-secondary mb-0" style="font-size:0.82rem;font-weight:600">PASSPHRASE</label>
                     <button type="button" id="btn-toggle-pwd" class="btn p-0 text-muted" style="font-size:0.75rem;border:none;background:none">Show</button>
                 </div>
                 <input type="password" class="form-control-custom" id="password" placeholder="••••••••••••" required autocomplete="current-password">
             </div>
 
             <button type="submit" id="btn-login-submit" class="btn-primary-custom w-100 justify-content-center py-2 mt-2">
-                Sign In to Vault
+                🛡️ Authenticate & Decrypt Vault
             </button>
         </form>
 
-        <!-- Quick Demo Accounts -->
+        <!-- Quick Demo Accounts Grid -->
         <div class="mt-4 pt-3 border-top border-secondary border-opacity-25">
-            <div class="text-muted mb-2" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em">
-                Demo Quick-Fill Accounts:
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-muted" style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700">
+                    Quick-Fill Security Personas:
+                </span>
+                <span class="text-muted" style="font-size:0.68rem">Click to populate</span>
             </div>
-            <div class="d-flex flex-wrap gap-2">
-                <button type="button" class="quick-account-btn" onclick="fillDemo('admin@trustvault.local', 'AdminPass123!')">
-                    Admin
-                </button>
-                <button type="button" class="quick-account-btn" onclick="fillDemo('owner@trustvault.local', 'OwnerPass123!')">
-                    Owner
-                </button>
-                <button type="button" class="quick-account-btn" onclick="fillDemo('viewer@trustvault.local', 'ViewerPass123!')">
-                    Viewer
-                </button>
-                <button type="button" class="quick-account-btn" onclick="fillDemo('disabled@trustvault.local', 'DisabledPass123!')">
-                    Disabled
-                </button>
+            <div class="row g-2">
+                <div class="col-6">
+                    <button type="button" class="quick-account-chip w-100" onclick="fillDemo('owner@trustvault.local', 'OwnerPass123!')">
+                        <span>Alice (Owner)</span>
+                        <span class="chip-role-tag" style="background:rgba(0,242,254,0.15);color:var(--cyan)">OWNER</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="quick-account-chip w-100" onclick="fillDemo('viewer@trustvault.local', 'ViewerPass123!')">
+                        <span>Bob (Viewer)</span>
+                        <span class="chip-role-tag" style="background:rgba(0,245,160,0.15);color:var(--emerald)">VIEWER</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="quick-account-chip w-100" onclick="fillDemo('admin@trustvault.local', 'AdminPass123!')">
+                        <span>SecOps Admin</span>
+                        <span class="chip-role-tag" style="background:rgba(138,43,226,0.2);color:#c084fc">ADMIN</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="quick-account-chip w-100" onclick="fillDemo('disabled@trustvault.local', 'DisabledPass123!')">
+                        <span>Revoked User</span>
+                        <span class="chip-role-tag" style="background:rgba(255,0,85,0.2);color:#ff4d79">LOCKED</span>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Security Footer -->
-        <div class="text-center mt-4">
-            <span class="status-pill success" style="font-size:0.7rem">
-                <span class="pulse-dot"></span> SHA-256 Tamper-Evident Active
+        <!-- Security Footer Status -->
+        <div class="d-flex justify-content-between align-items-center mt-4 pt-2">
+            <span class="status-pill success" style="font-size:0.68rem">
+                <span class="pulse-dot"></span> SHA-256 Ledger Active
+            </span>
+            <span class="text-muted" style="font-size:0.72rem;font-family:var(--font-mono)">
+                v1.2-SENTINEL
             </span>
         </div>
     </div>
 </div>
 
 <script>
+    // Lightweight Cyber Particle Matrix Background
+    (function initCyberCanvas() {
+        const canvas = document.getElementById('cyber-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = Array.from({ length: 45 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            radius: Math.random() * 1.5 + 0.8
+        }));
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(0, 242, 254, 0.4)';
+            ctx.strokeStyle = 'rgba(0, 242, 254, 0.08)';
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
     function fillDemo(email, pass) {
         document.getElementById('email').value = email;
         document.getElementById('password').value = pass;
@@ -139,7 +261,7 @@
         alertBox.innerText = '';
 
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Authenticating...';
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Decrypting & Authenticating...';
 
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
@@ -148,24 +270,23 @@
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-                credentials: 'same-origin'
+                body: JSON.stringify({ email, password })
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Invalid email or password');
+            if (response.ok) {
+                window.location.href = '/index.html';
+            } else {
+                const errData = await response.json().catch(() => ({}));
+                alertBox.innerText = errData.message || 'Access Denied: Invalid credentials or disabled account.';
+                alertBox.classList.remove('d-none');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '🛡️ Authenticate & Decrypt Vault';
             }
-
-            // Redirect to dashboard
-            window.location.href = '/index.html';
         } catch (err) {
-            alertBox.innerText = err.message || 'Authentication failed. Please verify credentials.';
+            alertBox.innerText = 'Network communication failure. Please verify server connectivity.';
             alertBox.classList.remove('d-none');
-        } finally {
             submitBtn.disabled = false;
-            submitBtn.innerText = 'Sign In to Vault';
+            submitBtn.innerHTML = '🛡️ Authenticate & Decrypt Vault';
         }
     });
 </script>

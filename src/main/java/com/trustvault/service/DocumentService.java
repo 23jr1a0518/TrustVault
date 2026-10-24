@@ -299,6 +299,10 @@ public class DocumentService {
         existing.ifPresent(oldGrant -> grantRepository.revokeGrant(oldGrant.getId(), currentUser.getId()));
 
         String grantId = "grant-" + UUID.randomUUID().toString();
+        Instant expiresAt = (request.getDurationHours() != null && request.getDurationHours() > 0)
+            ? Instant.now().plus(java.time.Duration.ofHours(request.getDurationHours()))
+            : null;
+
         DocumentGrant newGrant = new DocumentGrant(
             grantId,
             documentId,
@@ -306,11 +310,16 @@ public class DocumentService {
             request.getPermissionLevel(),
             currentUser.getId(),
             Instant.now(),
+            expiresAt,
             null,
             null
         );
 
         grantRepository.save(newGrant);
+
+        String grantAuditDetail = expiresAt != null
+            ? String.format("Granted %s permission to %s (Expires in %d hours)", request.getPermissionLevel(), recipient.getEmail(), request.getDurationHours())
+            : String.format("Granted %s permission to %s", request.getPermissionLevel(), recipient.getEmail());
 
         auditService.logEvent(
             currentUser.getId(),
@@ -319,7 +328,7 @@ public class DocumentService {
             recipient.getId(),
             AuditOutcome.SUCCESS,
             requestId,
-            String.format("Granted %s permission to %s", request.getPermissionLevel(), recipient.getEmail())
+            grantAuditDetail
         );
 
         return GrantResponse.from(newGrant, recipient.getEmail(), currentUser.getEmail(), null);
