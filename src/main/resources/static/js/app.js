@@ -105,6 +105,8 @@ function getCsrfToken() {
     return getCookie('XSRF-TOKEN');
 }
 
+const API_BASE = window.TRUSTVAULT_API_BASE || localStorage.getItem('TRUSTVAULT_API_BASE') || '';
+
 async function apiFetch(endpoint, options = {}) {
     const defaultHeaders = {};
     const method = (options.method || 'GET').toUpperCase();
@@ -127,11 +129,13 @@ async function apiFetch(endpoint, options = {}) {
             ...defaultHeaders,
             ...options.headers
         },
-        credentials: 'same-origin'
+        credentials: 'include'
     };
 
+    const targetUrl = endpoint.startsWith('http') ? endpoint : (API_BASE + endpoint);
+
     try {
-        const response = await fetch(endpoint, config);
+        const response = await fetch(targetUrl, config);
 
         if (response.status === 401) {
             console.warn('Session expired or unauthorized. Redirecting to login.');
@@ -477,7 +481,7 @@ async function loadDocuments() {
 async function downloadDocument(docId) {
     playCyberSound('click');
     showToast('Authorizing & streaming confidential document...', 'info');
-    window.location.href = `/api/documents/${docId}/download`;
+    window.location.href = `${API_BASE}/api/documents/${docId}/download`;
 }
 
 async function deleteDocument(docId) {
