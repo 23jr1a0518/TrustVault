@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://trustvault-backend.onrender.com/api/:path*"
+      "destination": "https://trustvault-gkx1.onrender.com/api/:path*"
     }
   ]
 }
