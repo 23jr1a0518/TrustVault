@@ -42,7 +42,10 @@ public class SupabaseStorageService implements StorageService {
     }
 
     private boolean isConfigured() {
-        return !secretKey.isBlank() && !secretKey.startsWith("your-") && !secretKey.equals("test");
+        return !secretKey.isBlank()
+            && !secretKey.startsWith("your-")
+            && !secretKey.startsWith("test")
+            && secretKey.startsWith("eyJ");
     }
 
     @Override

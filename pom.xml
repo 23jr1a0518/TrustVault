@@ -63,11 +63,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- In-memory H2 Database for Fast, Isolated Unit & Integration Tests -->
+        <!-- In-memory H2 Database for Fast, Isolated Unit & Integration Tests and Local Dev -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Test Starters -->
